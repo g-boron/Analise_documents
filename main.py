@@ -1,4 +1,5 @@
 import arxiv
+import re
 
 
 def fetch_results():
@@ -9,3 +10,23 @@ def fetch_results():
     )
 
     return search.results()
+
+
+def collect_data():
+    papers = fetch_results()
+    titles = []
+    urls = []
+    ids = []
+
+    for result in papers:
+        slashs = [m.start() for m in re.finditer('/', result.entry_id)]
+        paper_id = result.entry_id[slashs[-1]+1:]
+        titles.append(result.title)
+        urls.append(result.pdf_url)
+        ids.append(paper_id)
+        
+    return titles, urls, ids
+
+
+if __name__ == '__main__':
+    list_of_titles, list_of_urls, list_of_ids = collect_data()
