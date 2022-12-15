@@ -26,3 +26,10 @@ def collect_data():
         ids.append(paper_id)
         
     return titles, urls, ids
+
+
+def download_pdf(ids):
+    for idx, paper_id in enumerate(ids, 1):
+        paper = next(arxiv.Search(id_list=[paper_id]).results())
+        paper.download_pdf(dirpath='./pdfs', filename=f'paper{idx}.pdf')
+        print(f'Downloaded papers: {idx}')
