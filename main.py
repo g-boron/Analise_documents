@@ -1,6 +1,8 @@
 import papers
+import calculation
 
 if __name__ == '__main__':
-    list_of_titles, list_of_urls, list_of_ids = papers.collect_data()
-    papers.download_pdf(list_of_ids)
+    titles, urls, ids = papers.collect_data()
+    #papers.download_pdf(ids)
+    pdfs, words, chars, chars_wo_spaces = calculation.get_chars_stats()
     
