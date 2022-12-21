@@ -2,6 +2,7 @@ import PyPDF2
 import os
 import re
 import logging
+from progress.bar import Bar
 
 
 def set_logs():
@@ -19,28 +20,30 @@ def get_chars_stats():
     list_of_chars = []
     list_of_chars_wo_spaces = []
 
-    for idx, file in enumerate(files, 1):
-        with open(f'./pdfs/{file}', 'rb') as pdf_file:
-            ReadPDF = PyPDF2.PdfFileReader(pdf_file, strict=False)
-            pages = ReadPDF.numPages
+    with Bar('Processing...', max=10, suffix='%(percent)d%%') as bar:
+        for _, file in enumerate(files, 1):
+            with open(f'./pdfs/{file}', 'rb') as pdf_file:
+                ReadPDF = PyPDF2.PdfFileReader(pdf_file, strict=False)
+                pages = ReadPDF.numPages
 
-            total_words = 0
-            total_chars = 0
-            total_chars_wo_spaces = 0
+                total_words = 0
+                total_chars = 0
+                total_chars_wo_spaces = 0
 
-            for page in range(pages):
-                pageObj = ReadPDF.getPage(page)
-                data = pageObj.extract_text()
-                
-                total_words += len(data.split())
-                total_chars += len(list(data))
-                wo_spaces = data.replace(' ', '')
-                total_chars_wo_spaces += len(list(wo_spaces))
+                for page in range(pages):
+                    pageObj = ReadPDF.getPage(page)
+                    data = pageObj.extract_text()
+                    
+                    total_words += len(data.split())
+                    total_chars += len(list(data))
+                    wo_spaces = data.replace(' ', '')
+                    total_chars_wo_spaces += len(list(wo_spaces))
 
-            list_of_words.append(total_words)
-            list_of_chars.append(total_chars)
-            list_of_chars_wo_spaces.append(total_chars_wo_spaces)
-            print(f'File {idx}')
+                list_of_words.append(total_words)
+                list_of_chars.append(total_chars)
+                list_of_chars_wo_spaces.append(total_chars_wo_spaces)
+                #print(f'File {idx}')
+                bar.next()
     
     return files, list_of_words, list_of_chars, list_of_chars_wo_spaces
 
@@ -53,20 +56,20 @@ def count_words(word):
     files = os.listdir('./pdfs')
     counted_words = []
 
-    for idx, file in enumerate(files, 1):
-        with open(f'./pdfs/{file}', 'rb') as pdf_file:
-            ReadPDF = PyPDF2.PdfFileReader(pdf_file, strict=False)
-            pages = ReadPDF.numPages
+    with Bar('Processing...', max=10, suffix='%(percent)d%%') as bar:
+        for _, file in enumerate(files, 1):
+            with open(f'./pdfs/{file}', 'rb') as pdf_file:
+                ReadPDF = PyPDF2.PdfFileReader(pdf_file, strict=False)
+                pages = ReadPDF.numPages
 
-            words_count = 0
+                words_count = 0
 
-            for page in range(pages):
-                pageObj = ReadPDF.getPage(page)
-                data = pageObj.extract_text()
-                words_count += sum(1 for match in re.findall(rf'\b{word}\b', data, flags=re.I))
+                for page in range(pages):
+                    pageObj = ReadPDF.getPage(page)
+                    data = pageObj.extract_text()
+                    words_count += sum(1 for match in re.findall(rf'\b{word}\b', data, flags=re.I))
 
-            counted_words.append(words_count)
-        
-        print(f'File: {idx}')
-    
+                counted_words.append(words_count)
+                bar.next()
+                
     return counted_words
