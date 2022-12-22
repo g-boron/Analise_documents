@@ -10,10 +10,7 @@ if __name__ == '__main__':
     pdfs, words, chars, chars_wo_spaces = calculation.get_chars_stats()
     finded_words = calculation.count_words('computer')
 
-    df = pd.DataFrame(list(zip(urls, titles, words, chars, chars_wo_spaces, finded_words)), columns = ['Url', 'Title', 'Words', 'Chars', 'Chars without spaces', 'Finded words'])
+    df = data_analysis.create_dataframe(Url = urls, Title = titles, Words = words, Chars = chars, Chars_without_spaces = chars_wo_spaces, Finded_words = finded_words)
     print(df)
-    print(data_analysis.get_statistics(df, 'Words'))
-    print(data_analysis.get_statistics(df, 'Chars'))
-    print(data_analysis.get_statistics(df, 'Chars without spaces'))
-    print(data_analysis.get_statistics(df, 'Finded words'))
-    data_analysis.draw_plot(finded_words, 7)
+    #b = df[['Chars', 'Chars without spaces']]
+    #data_analysis.draw_plot('bar', b, 'Chars with and without spaces', 'Amount of papers', 'Amounts of chars')

@@ -10,6 +10,11 @@ def get_statistics(df, name):
         }
 
 
+def create_dataframe(**kwargs):
+    z = list(zip(*kwargs.values()))
+    return pd.DataFrame(z, columns=kwargs.keys())
+
+
 def draw_plot(plot_type, data, title, xlabel, ylabel, amount=0):
     if plot_type == 'hist':
         plt.hist(data, bins=amount)
@@ -25,4 +30,3 @@ def draw_plot(plot_type, data, title, xlabel, ylabel, amount=0):
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)
         plt.show()
-        
