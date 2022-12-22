@@ -10,6 +10,19 @@ def get_statistics(df, name):
         }
 
 
-def draw_plot(data, amount):
-    plt.hist(data, bins=amount)
-    plt.show()
+def draw_plot(plot_type, data, title, xlabel, ylabel, amount=0):
+    if plot_type == 'hist':
+        plt.hist(data, bins=amount)
+        plt.title(title)
+        plt.xlabel(xlabel)
+        plt.ylabel(ylabel)
+        plt.show()
+    elif plot_type == 'plot':
+        plt.Figure()
+        data.plot()
+        plt.legend(loc='best')
+        plt.title(title)
+        plt.xlabel(xlabel)
+        plt.ylabel(ylabel)
+        plt.show()
+        
