@@ -7,13 +7,14 @@ import getopt
 
 def main(argv):
     arg_download = ''
+    arg_keyword = ''
     arg_collect = ''
     arg_stats = ''
     arg_count_word = ''
-    arg_help = f'{argv[0]} -d / --download <number of papers> -c / --collect <y/n> -s / --stats <y/n> -w / --count_word <word>'
+    arg_help = f'{argv[0]} -d | --download <number of papers> -k | --keyword <keyword> -c | --collect <y/n> -s | --stats <y/n> -w | --count_word <word>'
 
     try:
-        opts, args = getopt.getopt(argv[1:], 'hd:c:s:w:', ['help', 'download=', 'collect=', 'stats=', 'count_word='])
+        opts, args = getopt.getopt(argv[1:], 'hd:k:c:s:w:', ['help', 'download=', 'keyword=', 'collect=', 'stats=', 'count_word='])
     except:
         print(arg_help)
         sys.exit(2)
@@ -22,6 +23,8 @@ def main(argv):
         if opt in ('-h', '--help'):
             print(arg_help)
             sys.exit(2)
+        elif opt in ('-k', '--keyword'):
+            arg_keyword = arg
         elif opt in ('-d', '--download'):
             arg_download = arg
         elif opt in ('-c', '--collect'):
@@ -35,6 +38,10 @@ def main(argv):
     print('collect', arg_collect)
     print('stats', arg_stats)
     print('count_word', arg_count_word)
+
+    if arg_download != '' and arg_keyword != '':
+        titles, urls, ids = papers.collect_data(arg_download, arg_keyword)
+        papers.download_pdf(ids)
 
     #titles, urls, ids = papers.collect_data()
     #papers.download_pdf(ids)

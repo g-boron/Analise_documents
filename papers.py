@@ -1,28 +1,29 @@
 import arxiv
 import re
 from progress.bar import Bar
+import os
 
 
-def fetch_results():
+def fetch_results(amount, keyword):
     search = arxiv.Search(
-    query = "artificial intelligence",
-    max_results = 10,
+    query = keyword,
+    max_results = int(amount),
     sort_by = arxiv.SortCriterion.SubmittedDate
     )
 
     return search.results()
 
 
-def collect_data():
+def collect_data(amount, keyword):
     print()
     print('Collecting data..')
 
-    papers = fetch_results()
+    papers = fetch_results(amount, keyword)
     titles = []
     urls = []
     ids = []
 
-    with Bar('Processing...', max=10, suffix='%(percent)d%%') as bar:
+    with Bar('Processing...', max=int(amount), suffix='%(percent)d%%') as bar:
         for _, result in enumerate(papers, 1):
             slashs = [m.start() for m in re.finditer('/', result.entry_id)]
             paper_id = result.entry_id[slashs[-1]+1:]
@@ -38,7 +39,8 @@ def download_pdf(ids):
     print()
     print('Downloading papers..')
 
-    with Bar('Processing...', max=10, suffix='%(percent)d%%') as bar:
+    #max=len([entry for entry in os.listdir('./pdfs/') if os.path.isfile(os.path.join('./pdfs/', entry))])
+    with Bar('Processing...', max=len(ids), suffix='%(percent)d%%') as bar:
         for idx, paper_id in enumerate(ids, 1):
             paper = next(arxiv.Search(id_list=[paper_id]).results())
             paper.download_pdf(dirpath='./pdfs', filename=f'paper{idx}.pdf')
