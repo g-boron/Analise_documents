@@ -79,10 +79,13 @@ def main(argv):
                     break
                 print(columns)
 
-            
+            temp = []
 
-            new = df[['Words', 'Chars']]
-            #data_analysis.draw_plot('plot', new, 'tytul', 'x', 'y')
+            for c in columns:
+                temp.append(df.columns[c])
+
+            new = df[temp]
+            data_analysis.draw_plot('plot', new, 'tytul', 'x', 'y')
             break
         elif answer == 'n':
             print('No')
