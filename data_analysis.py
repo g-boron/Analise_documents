@@ -15,9 +15,9 @@ def create_dataframe(**kwargs):
     return pd.DataFrame(z, columns=kwargs.keys())
 
 
-def draw_plot(plot_type, data, title, xlabel, ylabel, amount=0):
+def draw_plot(plot_type, data, title, xlabel, ylabel):
     if plot_type == 'hist':
-        plt.hist(data, bins=amount)
+        plt.hist(data, bins=5)
         plt.title(title)
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)
