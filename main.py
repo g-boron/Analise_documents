@@ -55,41 +55,42 @@ def main(argv):
             df = data_analysis.create_dataframe(Finded_words = finded_words)
             print(df)
 
-    print('\nDo you want to visualize data? (y/n)')
-    
-    while True:
-        answer = input('-> ')
+    if arg_stats == 'y' or arg_count_word != '':
+        print('\nDo you want to visualize data? (y/n)')
+        
+        while True:
+            answer = input('-> ')
 
-        if answer == 'y':
-            columns = []
+            if answer == 'y':
+                columns = []
 
-            for i, c in enumerate(df.columns):
-                print(f'{i}: {c}')
+                for i, c in enumerate(df.columns):
+                    print(f'{i}: {c}')
 
-            print(f'Choose columns 1 - {len(df.columns)-1} (-1 to exit, OK to accept):')
-            while True:
-                column = input('->')
-                if column == '-1':
-                    break
-                elif column.isdigit() and int(column) >=1 and int(column) < len(df.columns):
-                    if int(column) not in columns:
-                        columns.append(int(column))
-                elif column == 'OK':
-                    print("OK")
-                    break
-                print(columns)
+                print(f'Choose columns 1 - {len(df.columns)-1} (-1 to exit, OK to accept):')
+                while True:
+                    column = input('-> ')
+                    if column == '-1':
+                        break
+                    elif column.isdigit() and int(column) >=1 and int(column) < len(df.columns):
+                        if int(column) not in columns:
+                            columns.append(int(column))
+                    elif column == 'OK':
+                        print("OK")
+                        break
+                    print(columns)
 
-            temp = []
+                temp = []
 
-            for c in columns:
-                temp.append(df.columns[c])
+                for c in columns:
+                    temp.append(df.columns[c])
 
-            new = df[temp]
-            data_analysis.draw_plot('plot', new, 'tytul', 'x', 'y')
-            break
-        elif answer == 'n':
-            print('No')
-            break
+                new = df[temp]
+                data_analysis.draw_plot('plot', new, 'tytul', 'x', 'y')
+                break
+            elif answer == 'n':
+                print('No')
+                break
 
 if __name__ == '__main__':
     main(sys.argv)
