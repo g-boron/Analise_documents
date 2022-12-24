@@ -40,7 +40,6 @@ def download_pdf(ids):
     print()
     print('Downloading papers..')
 
-    #max=len([entry for entry in os.listdir('./pdfs/') if os.path.isfile(os.path.join('./pdfs/', entry))])
     with Bar('Processing...', max=len(ids), suffix='%(percent)d%%') as bar:
         for idx, paper_id in enumerate(ids, 1):
             paper = next(arxiv.Search(id_list=[paper_id]).results())

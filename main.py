@@ -86,11 +86,18 @@ def main(argv):
                     temp.append(df.columns[c])
 
                 new = df[temp]
-                data_analysis.draw_plot('plot', new, 'tytul', 'x', 'y')
+
+                plot_type = input('Which plot do you want to draw? (plot / hist) -> ')
+                title = input('Set title -> ')
+                xlabel = input('Set xlabel -> ')
+                ylabel = input('Set ylabel -> ')
+                data_analysis.draw_plot(plot_type, new, title, xlabel, ylabel)
                 break
+
             elif answer == 'n':
                 print('No')
                 break
+
 
 if __name__ == '__main__':
     main(sys.argv)

@@ -23,7 +23,7 @@ def get_chars_stats():
     list_of_chars = []
     list_of_chars_wo_spaces = []
 
-    with Bar('Processing...', max=10, suffix='%(percent)d%%') as bar:
+    with Bar('Processing...', max=len([entry for entry in os.listdir('./pdfs/') if os.path.isfile(os.path.join('./pdfs/', entry))]), suffix='%(percent)d%%') as bar:
         for _, file in enumerate(files, 1):
             with open(f'./pdfs/{file}', 'rb') as pdf_file:
                 ReadPDF = PyPDF2.PdfFileReader(pdf_file, strict=False)
@@ -62,7 +62,7 @@ def count_words(word):
     files = os.listdir('./pdfs')
     counted_words = []
 
-    with Bar('Processing...', max=10, suffix='%(percent)d%%') as bar:
+    with Bar('Processing...', max=len([entry for entry in os.listdir('./pdfs/') if os.path.isfile(os.path.join('./pdfs/', entry))]), suffix='%(percent)d%%') as bar:
         for _, file in enumerate(files, 1):
             with open(f'./pdfs/{file}', 'rb') as pdf_file:
                 ReadPDF = PyPDF2.PdfFileReader(pdf_file, strict=False)
