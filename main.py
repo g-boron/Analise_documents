@@ -1,6 +1,6 @@
-import papers
-import calculation
-import data_analysis
+from modules.papers import collect_data, download_pdf
+from modules.calculation import get_chars_stats, count_words
+from modules.data_analysis import get_statistics, create_dataframe, draw_plot
 import sys
 import getopt
 
@@ -32,27 +32,28 @@ def main(argv):
             arg_count_word = arg
 
     if arg_download != '' and arg_keyword != '' and arg_download.isnumeric() and int(arg_download) > 0:
-        ids = papers.collect_data(arg_download, arg_keyword)
-        papers.download_pdf(ids)
+        ids = collect_data(arg_download, arg_keyword)
+        download_pdf(ids)
 
     if arg_stats == 'y':
-        pdfs, words, chars, chars_wo_spaces = calculation.get_chars_stats()
-        df = data_analysis.create_dataframe(File = pdfs, Words = words, Chars = chars, Chars_without_spaces = chars_wo_spaces)
+        pdfs, words, chars, chars_wo_spaces = get_chars_stats()
+        df = create_dataframe(File = pdfs, Words = words, Chars = chars, Chars_without_spaces = chars_wo_spaces)
         with open('keyword.txt', 'r') as f:
             content = f.read()
-            finded_words = calculation.count_words(content)
+            finded_words = count_words(content)
             df['Finded_keywords'] = finded_words
             print(df)
     
 
     if arg_count_word != '':
-        finded_words = calculation.count_words(arg_count_word)
+        finded_words = count_words(arg_count_word)
         try:
             df = df.drop('Finded_keywords', axis=1)
             df['Finded_words'] = finded_words
             print(df)
         except:
-            df = data_analysis.create_dataframe(Finded_words = finded_words)
+            pdfs, words, chars, chars_wo_spaces = get_chars_stats()
+            df = create_dataframe(File = pdfs, Finded_words = finded_words)
             print(df)
 
     if arg_stats == 'y' or arg_count_word != '':
@@ -76,22 +77,21 @@ def main(argv):
                         if int(column) not in columns:
                             columns.append(int(column))
                     elif column == 'OK':
-                        print("OK")
+                        temp = []
+
+                        for c in columns:
+                            temp.append(df.columns[c])
+
+                        new = df[temp]
+
+                        plot_type = input('Which plot do you want to draw? (plot / hist) -> ')
+                        title = input('Set title -> ')
+                        xlabel = input('Set xlabel -> ')
+                        ylabel = input('Set ylabel -> ')
+                        draw_plot(plot_type, new, title, xlabel, ylabel)
                         break
+
                     print(columns)
-
-                temp = []
-
-                for c in columns:
-                    temp.append(df.columns[c])
-
-                new = df[temp]
-
-                plot_type = input('Which plot do you want to draw? (plot / hist) -> ')
-                title = input('Set title -> ')
-                xlabel = input('Set xlabel -> ')
-                ylabel = input('Set ylabel -> ')
-                data_analysis.draw_plot(plot_type, new, title, xlabel, ylabel)
                 break
 
             elif answer == 'n':
