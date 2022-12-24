@@ -45,10 +45,9 @@ def get_chars_stats():
                 list_of_words.append(total_words)
                 list_of_chars.append(total_chars)
                 list_of_chars_wo_spaces.append(total_chars_wo_spaces)
-                #print(f'File {idx}')
                 bar.next()
     
-    print(f'Time spent: {time() - start_time}s')
+    print(f'Time spent: {round(time()-start_time, 2)}s')
 
     return files, list_of_words, list_of_chars, list_of_chars_wo_spaces
 
@@ -78,6 +77,6 @@ def count_words(word):
                 counted_words.append(words_count)
                 bar.next()
                 
-    print(f'Time spent: {time() - start_time}s')
+    print(f'Time spent: {round(time()-start_time, 2)}s')
 
     return counted_words

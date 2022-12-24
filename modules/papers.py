@@ -46,4 +46,4 @@ def download_pdf(ids):
             paper.download_pdf(dirpath='./pdfs')
             bar.next()
 
-    print(f'Time spent: {time()-start_time}s')
+    print(f'Time spent: {round(time()-start_time, 2)}s')
