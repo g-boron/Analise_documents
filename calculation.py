@@ -3,6 +3,7 @@ import os
 import re
 import logging
 from progress.bar import Bar
+from time import time
 
 
 def set_logs():
@@ -11,6 +12,8 @@ def set_logs():
 
 
 def get_chars_stats():
+    start_time = time()
+
     set_logs()
     print()
     print('Getting statistics..')
@@ -45,10 +48,13 @@ def get_chars_stats():
                 #print(f'File {idx}')
                 bar.next()
     
+    print(f'Time spent: {time() - start_time}s')
+
     return files, list_of_words, list_of_chars, list_of_chars_wo_spaces
 
 
 def count_words(word):
+    start_time = time()
     set_logs()
     print()
     print('Counting words..')
@@ -72,4 +78,6 @@ def count_words(word):
                 counted_words.append(words_count)
                 bar.next()
                 
+    print(f'Time spent: {time() - start_time}s')
+
     return counted_words
