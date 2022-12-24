@@ -3,6 +3,8 @@ from modules.calculation import get_chars_stats, count_words
 from modules.data_analysis import get_statistics, create_dataframe, draw_plot
 import sys
 import getopt
+import shutil
+import os
 
 
 def main(argv):
@@ -32,6 +34,19 @@ def main(argv):
             arg_count_word = arg
 
     if arg_download != '' and arg_keyword != '' and arg_download.isnumeric() and int(arg_download) > 0:
+        option = input('Delete existing files? (y/n) -> ')
+        if option == 'y':
+            folder = './pdfs'
+            for filename in os.listdir(folder):
+                file_path = os.path.join(folder, filename)
+                try:
+                    if os.path.isfile(file_path) or os.path.islink(file_path):
+                        os.unlink(file_path)
+                    elif os.path.isdir(file_path):
+                        shutil.rmtree(file_path)
+                except Exception as e:
+                    print('Failed to delete %s. Reason: %s' % (file_path, e))
+                    
         ids = collect_data(arg_download, arg_keyword)
         download_pdf(ids)
 
@@ -95,7 +110,7 @@ def main(argv):
                 break
 
             elif answer == 'n':
-                print('No')
+                print('Closing..')
                 break
 
 
