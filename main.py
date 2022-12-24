@@ -72,46 +72,51 @@ def main(argv):
             print(df)
 
     if arg_stats == 'y' or arg_count_word != '':
-        print('\nDo you want to visualize data? (y/n)')
+        print('\nDo you want to visualize data (0) or get statistics (1)?')
         
-        while True:
-            answer = input('-> ')
+        answer = input('-> ')
 
-            if answer == 'y':
-                columns = []
+        if answer == '0':
+            columns = []
 
-                for i, c in enumerate(df.columns):
-                    print(f'{i}: {c}')
+            for i, c in enumerate(df.columns):
+                print(f'{i}: {c}')
 
-                print(f'Choose columns 1 - {len(df.columns)-1} (-1 to exit, OK to accept):')
-                while True:
-                    column = input('-> ')
-                    if column == '-1':
-                        break
-                    elif column.isdigit() and int(column) >=1 and int(column) < len(df.columns):
-                        if int(column) not in columns:
-                            columns.append(int(column))
-                    elif column == 'OK':
-                        temp = []
+            print(f'Choose columns 1 - {len(df.columns)-1} (-1 to exit, OK to accept):')
+            while True:
+                column = input('-> ')
+                if column == '-1':
+                    break
+                elif column.isdigit() and int(column) >=1 and int(column) < len(df.columns):
+                    if int(column) not in columns:
+                        columns.append(int(column))
+                elif column == 'OK':
+                    temp = []
 
-                        for c in columns:
-                            temp.append(df.columns[c])
+                    for c in columns:
+                        temp.append(df.columns[c])
 
-                        new = df[temp]
+                    new = df[temp]
 
-                        plot_type = input('Which plot do you want to draw? (plot / hist) -> ')
-                        title = input('Set title -> ')
-                        xlabel = input('Set xlabel -> ')
-                        ylabel = input('Set ylabel -> ')
-                        draw_plot(plot_type, new, title, xlabel, ylabel)
-                        break
+                    plot_type = input('Which plot do you want to draw? (plot / hist) -> ')
+                    title = input('Set title -> ')
+                    xlabel = input('Set xlabel -> ')
+                    ylabel = input('Set ylabel -> ')
+                    draw_plot(plot_type, new, title, xlabel, ylabel)
+                    break
 
-                    print(columns)
-                break
+                print(columns)
+        elif answer == '1':
+            for i, c in enumerate(df.columns):
+                print(f'{i}: {c}')
 
-            elif answer == 'n':
-                print('Closing..')
-                break
+            print(f'Choose columns 1 - {len(df.columns)-1} (-1 to exit):')
+            while True:
+                column = input('-> ')
+                if column == '-1':
+                    break
+                elif column.isdigit() and int(column) >=1 and int(column) < len(df.columns):
+                    print(get_statistics(df, df.columns[int(column)]))
 
 
 if __name__ == '__main__':
