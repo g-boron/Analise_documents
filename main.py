@@ -31,7 +31,7 @@ def main(argv):
         elif opt in ('-w', '--count_word'):
             arg_count_word = arg
 
-    if arg_download != '' and arg_keyword != '':
+    if arg_download != '' and arg_keyword != '' and arg_download.isnumeric() and int(arg_download) > 0:
         ids = papers.collect_data(arg_download, arg_keyword)
         papers.download_pdf(ids)
 
@@ -43,6 +43,7 @@ def main(argv):
             finded_words = calculation.count_words(content)
             df['Finded_keywords'] = finded_words
             print(df)
+    
 
     if arg_count_word != '':
         finded_words = calculation.count_words(arg_count_word)
@@ -54,13 +55,6 @@ def main(argv):
             df = data_analysis.create_dataframe(Finded_words = finded_words)
             print(df)
 
-    #titles, urls, ids = papers.collect_data()
-    #papers.download_pdf(ids)
-    '''pdfs, words, chars, chars_wo_spaces = calculation.get_chars_stats()
-    finded_words = calculation.count_words('computer')
-
-    df = data_analysis.create_dataframe(Url = urls, Title = titles, Words = words, Chars = chars, Chars_without_spaces = chars_wo_spaces, Finded_words = finded_words)
-    '''
 
 if __name__ == '__main__':
     main(sys.argv)
