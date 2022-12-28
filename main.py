@@ -63,7 +63,6 @@ def main(argv):
     if arg_count_word != '':
         finded_words = count_words(arg_count_word)
         try:
-            #df = df.drop('Finded_keywords', axis=1)
             df['Finded_words'] = finded_words
             print(df)
         except:
