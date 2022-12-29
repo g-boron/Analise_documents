@@ -35,7 +35,7 @@ def collect_data(amount, keyword):
     return ids
 
 
-def download_pdf(ids):
+def download_pdf(ids, dir):
     start_time = time()
     print()
     print('Downloading papers..')
@@ -43,7 +43,7 @@ def download_pdf(ids):
     with Bar('Processing...', max=len(ids), suffix='%(percent)d%%') as bar:
         for _, paper_id in enumerate(ids, 1):
             paper = next(arxiv.Search(id_list=[paper_id]).results())
-            paper.download_pdf(dirpath='./pdfs')
+            paper.download_pdf(dirpath=dir)
             bar.next()
 
     print(f'Time spent: {round(time()-start_time, 2)}s')

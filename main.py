@@ -48,7 +48,7 @@ def main(argv):
                     print('Failed to delete %s. Reason: %s' % (file_path, e))
 
         ids = collect_data(arg_download, arg_keyword)
-        download_pdf(ids)
+        download_pdf(ids, './pdfs')
 
     if arg_stats == 'y':
         pdfs, words, chars, chars_wo_spaces = get_chars_stats('./pdfs')
