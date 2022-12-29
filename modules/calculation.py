@@ -11,21 +11,21 @@ def set_logs():
     logger.setLevel(logging.ERROR)
 
 
-def get_chars_stats():
+def get_chars_stats(dir):
     start_time = time()
 
     set_logs()
     print()
     print('Getting statistics..')
 
-    files = os.listdir('./pdfs')
+    files = os.listdir(dir)
     list_of_words = []
     list_of_chars = []
     list_of_chars_wo_spaces = []
 
-    with Bar('Processing...', max=len([entry for entry in os.listdir('./pdfs/') if os.path.isfile(os.path.join('./pdfs/', entry))]), suffix='%(percent)d%%') as bar:
+    with Bar('Processing...', max=len([entry for entry in os.listdir(dir + '/') if os.path.isfile(os.path.join(dir + '/', entry))]), suffix='%(percent)d%%') as bar:
         for _, file in enumerate(files, 1):
-            with open(f'./pdfs/{file}', 'rb') as pdf_file:
+            with open(f'{dir}/{file}', 'rb') as pdf_file:
                 ReadPDF = PyPDF2.PdfFileReader(pdf_file, strict=False)
                 pages = ReadPDF.numPages
 
@@ -52,18 +52,18 @@ def get_chars_stats():
     return files, list_of_words, list_of_chars, list_of_chars_wo_spaces
 
 
-def count_words(word):
+def count_words(word, dir):
     start_time = time()
     set_logs()
     print()
     print('Counting words..')
 
-    files = os.listdir('./pdfs')
+    files = os.listdir(dir)
     counted_words = []
 
-    with Bar('Processing...', max=len([entry for entry in os.listdir('./pdfs/') if os.path.isfile(os.path.join('./pdfs/', entry))]), suffix='%(percent)d%%') as bar:
+    with Bar('Processing...', max=len([entry for entry in os.listdir(dir + '/') if os.path.isfile(os.path.join(dir + '/', entry))]), suffix='%(percent)d%%') as bar:
         for _, file in enumerate(files, 1):
-            with open(f'./pdfs/{file}', 'rb') as pdf_file:
+            with open(f'{dir}/{file}', 'rb') as pdf_file:
                 ReadPDF = PyPDF2.PdfFileReader(pdf_file, strict=False)
                 pages = ReadPDF.numPages
 

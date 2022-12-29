@@ -51,22 +51,22 @@ def main(argv):
         download_pdf(ids)
 
     if arg_stats == 'y':
-        pdfs, words, chars, chars_wo_spaces = get_chars_stats()
+        pdfs, words, chars, chars_wo_spaces = get_chars_stats('./pdfs')
         df = create_dataframe(File = pdfs, Words = words, Chars = chars, Chars_without_spaces = chars_wo_spaces)
         with open('keyword.txt', 'r') as f:
             content = f.read()
-            finded_words = count_words(content)
+            finded_words = count_words(content, './pdfs')
             df['Finded_keywords'] = finded_words
             print(df)
     
 
     if arg_count_word != '':
-        finded_words = count_words(arg_count_word)
+        finded_words = count_words(arg_count_word, './pdfs')
         try:
             df['Finded_words'] = finded_words
             print(df)
         except:
-            pdfs, words, chars, chars_wo_spaces = get_chars_stats()
+            pdfs, words, chars, chars_wo_spaces = get_chars_stats('./pdfs')
             df = create_dataframe(File = pdfs, Finded_words = finded_words)
             print(df)
 
