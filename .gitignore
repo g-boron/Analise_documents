@@ -400,3 +400,5 @@ pdfs/
 .idea/
 keyword.txt
 test_pdfs/
+.vscode/
+venv/
