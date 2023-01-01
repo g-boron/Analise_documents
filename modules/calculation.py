@@ -26,15 +26,15 @@ def get_chars_stats(dir):
     with Bar('Processing...', max=len([entry for entry in os.listdir(dir + '/') if os.path.isfile(os.path.join(dir + '/', entry))]), suffix='%(percent)d%%') as bar:
         for _, file in enumerate(files, 1):
             with open(f'{dir}/{file}', 'rb') as pdf_file:
-                ReadPDF = PyPDF2.PdfFileReader(pdf_file, strict=False)
-                pages = ReadPDF.numPages
+                ReadPDF = PyPDF2.PdfReader(pdf_file, strict=False)
+                pages = len(ReadPDF.pages)
 
                 total_words = 0
                 total_chars = 0
                 total_chars_wo_spaces = 0
 
                 for page in range(pages):
-                    pageObj = ReadPDF.getPage(page)
+                    pageObj = ReadPDF.pages[page]
                     data = pageObj.extract_text()
                     
                     total_words += len(data.split())
@@ -64,13 +64,13 @@ def count_words(word, dir):
     with Bar('Processing...', max=len([entry for entry in os.listdir(dir + '/') if os.path.isfile(os.path.join(dir + '/', entry))]), suffix='%(percent)d%%') as bar:
         for _, file in enumerate(files, 1):
             with open(f'{dir}/{file}', 'rb') as pdf_file:
-                ReadPDF = PyPDF2.PdfFileReader(pdf_file, strict=False)
-                pages = ReadPDF.numPages
+                ReadPDF = PyPDF2.PdfReader(pdf_file, strict=False)
+                pages = len(ReadPDF.pages)
 
                 words_count = 0
 
                 for page in range(pages):
-                    pageObj = ReadPDF.getPage(page)
+                    pageObj = ReadPDF.pages[page]
                     data = pageObj.extract_text()
                     words_count += sum(1 for match in re.findall(rf'\b{word}\b', data, flags=re.I))
 
