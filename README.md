@@ -4,6 +4,8 @@ App in Python responsible for downloading papers and analyse them.
 ### How to use ⚙️
 After downloading zip, unpack it and create directory called pdfs, when downloaded pdfs will be stored.
 
+Next install requirements. In terminal type `pip install -r requirements.txt`.
+
 Type in console `python main.py -h` or `python main.py --help` to see the syntax.
 
 To download papers use `python main.py -d <number of papers> -k <keyword>` or `python main.py --download <number of papers> --keyword <keyword>`
