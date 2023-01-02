@@ -4,7 +4,7 @@ App in Python responsible for downloading papers and analyse them.
 
 ### How to use ⚙️
 
-Next install requirements. In terminal type `pip install -r requirements.txt`.
+Install requirements. In terminal type `pip install -r requirements.txt`.
 
 Type in console `python main.py -h` or `python main.py --help` to see the syntax.
 
