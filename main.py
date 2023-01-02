@@ -34,6 +34,9 @@ def main(argv):
             arg_count_word = arg
 
     if arg_download != '' and arg_keyword != '' and arg_download.isnumeric() and int(arg_download) > 0:
+        if not os.path.exists('./pdfs'):
+            os.makedirs('./pdfs')
+
         option = input('Delete existing files? (y/n) -> ')
         if option == 'y':
             folder = './pdfs'
@@ -51,26 +54,32 @@ def main(argv):
         download_pdf(ids, './pdfs')
 
     if arg_stats == 'y':
-        pdfs, words, chars, chars_wo_spaces = get_chars_stats('./pdfs')
-        df = create_dataframe(File = pdfs, Words = words, Chars = chars, Chars_without_spaces = chars_wo_spaces)
-        with open('keyword.txt', 'r') as f:
-            content = f.read()
-            finded_words = count_words(content, './pdfs')
-            df['Finded_keywords'] = finded_words
-            print(df)
+        if not os.path.exists('./pdfs') or len(os.listdir('./pdfs')) == 0:
+            print('There is no pdf files to analise!')
+        else:
+            pdfs, words, chars, chars_wo_spaces = get_chars_stats('./pdfs')
+            df = create_dataframe(File = pdfs, Words = words, Chars = chars, Chars_without_spaces = chars_wo_spaces)
+            with open('keyword.txt', 'r') as f:
+                content = f.read()
+                finded_words = count_words(content, './pdfs')
+                df['Finded_keywords'] = finded_words
+                print(df)
     
 
     if arg_count_word != '':
-        finded_words = count_words(arg_count_word, './pdfs')
-        try:
-            df['Finded_words'] = finded_words
-            print(df)
-        except:
-            pdfs, words, chars, chars_wo_spaces = get_chars_stats('./pdfs')
-            df = create_dataframe(File = pdfs, Finded_words = finded_words)
-            print(df)
+        if not os.path.exists('./pdfs') or len(os.listdir('./pdfs')) == 0:
+            print('There is no pdf files to analise!')
+        else:
+            finded_words = count_words(arg_count_word, './pdfs')
+            try:
+                df['Finded_words'] = finded_words
+                print(df)
+            except:
+                pdfs, words, chars, chars_wo_spaces = get_chars_stats('./pdfs')
+                df = create_dataframe(File = pdfs, Finded_words = finded_words)
+                print(df)
 
-    if arg_stats == 'y' or arg_count_word != '':
+    if (arg_stats == 'y' and os.path.exists('./pdfs') and len(os.listdir('./pdfs')) > 0) or (arg_count_word != '' and os.path.exists('./pdfs') and len(os.listdir('./pdfs')) > 0):
         print('\nDo you want to visualize data (0) or get statistics (1)?')
         
         answer = input('-> ')

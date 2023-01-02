@@ -1,8 +1,8 @@
 # Analise documents 📰
+
 App in Python responsible for downloading papers and analyse them.
 
 ### How to use ⚙️
-After downloading zip, unpack it and create directory called pdfs, when downloaded pdfs will be stored.
 
 Next install requirements. In terminal type `pip install -r requirements.txt`.
 
