@@ -2,7 +2,7 @@ from modules.calculation import get_chars_stats, count_words
 
 
 def test_get_char_stats():
-    pdfs, words, chars, chars_wo_spaces = get_chars_stats('./test_pdfs')
+    pdfs, words, chars, chars_wo_spaces = get_chars_stats('./test_file')
 
     assert pdfs == ['test_file.pdf']
     assert words == [3]
@@ -11,6 +11,6 @@ def test_get_char_stats():
 
 
 def test_count_words():
-    amount = count_words('file', './test_pdfs')
+    amount = count_words('file', './test_file')
 
     assert amount == [1]

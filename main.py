@@ -7,6 +7,62 @@ import shutil
 import os
 
 
+def show_plot(df):
+    columns = []
+
+    for i, c in enumerate(df.columns):
+        print(f'{i}: {c}')
+
+    print(f'Choose columns 1 - {len(df.columns)-1} (-1 to exit, OK to accept):')
+    while True:
+        column = input('-> ')
+        if column == '-1':
+            break
+        elif column.isdigit() and int(column) >=1 and int(column) < len(df.columns):
+            if int(column) not in columns:
+                columns.append(int(column))
+        elif column == 'OK':
+            temp = []
+
+            for c in columns:
+                temp.append(df.columns[c])
+
+            new = df[temp]
+
+            plot_type = input('Which plot do you want to draw? (plot / hist) -> ')
+            title = input('Set title -> ')
+            xlabel = input('Set xlabel -> ')
+            ylabel = input('Set ylabel -> ')
+            draw_plot(plot_type, new, title, xlabel, ylabel)
+            break
+
+        print(columns)
+
+
+def show_stats(df):
+    for i, c in enumerate(df.columns):
+        print(f'{i}: {c}')
+
+    print(f'Choose columns 1 - {len(df.columns)-1} (-1 to exit):')
+    while True:
+        column = input('-> ')
+        if column == '-1':
+            break
+        elif column.isdigit() and int(column) >=1 and int(column) < len(df.columns):
+            print(get_statistics(df, df.columns[int(column)]))    
+
+
+def process_data(df):
+    print('\nDo you want to visualize data (0) or get statistics (1)?')
+        
+    answer = input('-> ')
+
+    if answer == '0':
+        show_plot(df)
+    elif answer == '1':
+        show_stats(df)
+
+
 def main(argv):
     arg_download = ''
     arg_keyword = ''
@@ -80,52 +136,8 @@ def main(argv):
                 print(df)
 
     if (arg_stats == 'y' and os.path.exists('./pdfs') and len(os.listdir('./pdfs')) > 0) or (arg_count_word != '' and os.path.exists('./pdfs') and len(os.listdir('./pdfs')) > 0):
-        print('\nDo you want to visualize data (0) or get statistics (1)?')
+        process_data(df)
         
-        answer = input('-> ')
-
-        if answer == '0':
-            columns = []
-
-            for i, c in enumerate(df.columns):
-                print(f'{i}: {c}')
-
-            print(f'Choose columns 1 - {len(df.columns)-1} (-1 to exit, OK to accept):')
-            while True:
-                column = input('-> ')
-                if column == '-1':
-                    break
-                elif column.isdigit() and int(column) >=1 and int(column) < len(df.columns):
-                    if int(column) not in columns:
-                        columns.append(int(column))
-                elif column == 'OK':
-                    temp = []
-
-                    for c in columns:
-                        temp.append(df.columns[c])
-
-                    new = df[temp]
-
-                    plot_type = input('Which plot do you want to draw? (plot / hist) -> ')
-                    title = input('Set title -> ')
-                    xlabel = input('Set xlabel -> ')
-                    ylabel = input('Set ylabel -> ')
-                    draw_plot(plot_type, new, title, xlabel, ylabel)
-                    break
-
-                print(columns)
-        elif answer == '1':
-            for i, c in enumerate(df.columns):
-                print(f'{i}: {c}')
-
-            print(f'Choose columns 1 - {len(df.columns)-1} (-1 to exit):')
-            while True:
-                column = input('-> ')
-                if column == '-1':
-                    break
-                elif column.isdigit() and int(column) >=1 and int(column) < len(df.columns):
-                    print(get_statistics(df, df.columns[int(column)]))
-
 
 if __name__ == '__main__':
     main(sys.argv)
