@@ -30,3 +30,12 @@ def draw_plot(plot_type, data, title, xlabel, ylabel):
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)
         plt.show()
+
+
+def save_dataframe(format, df, file_name):
+    if format == 'json':
+        df.to_json(f'{file_name}.json')
+    elif format == 'csv':
+        df.to_csv(f'{file_name}.csv', index=False, sep=';')
+    else:
+        raise Exception('Invalid format!')

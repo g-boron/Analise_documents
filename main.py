@@ -1,6 +1,6 @@
 from modules.papers import collect_data, download_pdf
 from modules.calculation import get_chars_stats, count_words
-from modules.data_analysis import get_statistics, create_dataframe, draw_plot
+from modules.data_analysis import get_statistics, create_dataframe, draw_plot, save_dataframe
 import sys
 import getopt
 import shutil
@@ -61,6 +61,20 @@ def process_data(df):
         show_plot(df)
     elif answer == '1':
         show_stats(df)
+
+
+def save_data(df):
+    while True:
+        print('Do you want to save data?')
+        answer = input('-> ')
+
+        if answer == 'y':
+            format = input('Choose format type (json / csv): ')
+            file_name = input('Type file name: ')
+            save_dataframe(format, df, file_name)
+            break
+        else:
+            break
 
 
 def main(argv):
@@ -137,7 +151,8 @@ def main(argv):
 
     if (arg_stats == 'y' and os.path.exists('./pdfs') and len(os.listdir('./pdfs')) > 0) or (arg_count_word != '' and os.path.exists('./pdfs') and len(os.listdir('./pdfs')) > 0):
         process_data(df)
-        
+        save_data(df)
+    
 
 if __name__ == '__main__':
     main(sys.argv)
