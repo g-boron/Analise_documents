@@ -14,6 +14,8 @@ If you want to want to see the statistics of papers (File name, number of words,
 
 You can also find the number of occurrences of the entered word using `python main.py -w <word>` or `python --count_words <word>` or if you don't use `-w` there will be number of occurrences of keyword in articles.
 
+At the end you can save data to json or csv file.
+
 ## About the project :computer:
 
 <b>The idea for the project came from my classes at university. I had to download science papers and analyse them manually, so it took hours. Clicking article one by one, download them and then using e.g. Word for counting words, chars etc. I wanted to do it quicker and more automatic, so I write this console app in Python.
